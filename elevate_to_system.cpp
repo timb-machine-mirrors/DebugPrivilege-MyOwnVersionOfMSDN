@@ -99,7 +99,6 @@ void enableDebugPrivilege()
 
     HANDLE TokenHandle(nullptr);
     BOOL hProcessToken = OpenProcessToken(currentProc, TOKEN_QUERY, &TokenHandle);
-
     // Check if the call to OpenProcessToken was successful. If it wasn't, print an error message to the standard error stream.
     if (!hProcessToken)
     {
@@ -118,7 +117,6 @@ void enableDebugPrivilege()
 
     // Lookup the LUID for the SeDebugPrivilege privilege
     BOOL checkToken = LookupPrivilegeValue(nullptr, L"SeDebugPrivilege", &luid);
-
     if (!checkToken)
     {
         DWORD errorCode = GetLastError();
@@ -197,7 +195,6 @@ void GetImpersonationToken(int TargetPID)
 
     // Open the process token
     OpenToken = OpenProcessToken(hProcess, TOKEN_DUPLICATE | TOKEN_QUERY, &TokenHandle);
-
     if (!OpenToken)
     {
         std::cerr << "Error opening process token: " << GetLastError() << std::endl;
@@ -207,7 +204,6 @@ void GetImpersonationToken(int TargetPID)
 
     // Duplicate the process token
     Duplicate = DuplicateTokenEx(TokenHandle, TOKEN_ADJUST_DEFAULT | TOKEN_ADJUST_SESSIONID | TOKEN_QUERY | TOKEN_DUPLICATE | TOKEN_ASSIGN_PRIMARY, nullptr, SecurityImpersonation, TokenPrimary, &NewToken);
-
     if (!Duplicate)
     {
         std::cerr << "Error duplicating token: " << GetLastError() << std::endl;
@@ -238,7 +234,6 @@ void PrintCurrentProcessTokenInfo()
 
     // Open the token for the current process
     BOOL OpenToken = OpenProcessToken(hCurrent, TOKEN_QUERY, &TokenHandle);
-
     if (!OpenToken)
     {
         std::cerr << "Error opening process token: " << GetLastError() << std::endl;
