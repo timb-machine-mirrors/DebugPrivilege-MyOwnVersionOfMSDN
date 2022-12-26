@@ -1,5 +1,6 @@
 // Credits to: https://www.mdsec.co.uk/2022/08/fourteen-ways-to-read-the-pid-for-the-local-security-authority-subsystem-service-lsass/
 // I've tweaked the code here and there, but credits goes to the folks at MDSec
+// Title: Enumerate the PID of lsass.exe via NtQuerySystemInformation
 
 #include <Windows.h>
 #include <winternl.h>
