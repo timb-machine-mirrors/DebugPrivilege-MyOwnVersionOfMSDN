@@ -20,9 +20,9 @@ typedef NTSTATUS(WINAPI* PNtQuerySystemInformation)(
 
 // Use NtQuerySystemInformation(SystemProcessInformation) to get the process ID of lsass.exe
 DWORD GetLsaPidFromName() {
-    NTSTATUS status;
-    DWORD processId = 0, length = 1024;
-    std::unique_ptr<BYTE[]> processList;
+	NTSTATUS status;
+	DWORD processId = 0, length = 1024;
+	std::unique_ptr<BYTE[]> processList;
 
     // Get the address of NtQuerySystemInformation
     PNtQuerySystemInformation NtQuerySystemInformation = (PNtQuerySystemInformation)GetProcAddress(
@@ -77,8 +77,12 @@ DWORD GetLsaPidFromName() {
         // Check if the process name is "lsass.exe"
         if (_wcsicmp(processName.c_str(), L"lsass.exe") == 0) {
             // If the process name matches, return the process ID
-            processId = HandleToUlong(processEntry->UniqueProcessId);
-            break;
+            DWORD processId = HandleToUlong(processEntry->UniqueProcessId);
+            if (processId == 0) {
+                DWORD error = GetLastError();
+                std::cout << "HandleToUlong failed: " << error << std::endl;
+            }
+            return processId;
         }
 
         offset += processEntry->NextEntryOffset;
@@ -91,6 +95,5 @@ int main() {
     // Get the process ID of lsass.exe
     DWORD processId = GetLsaPidFromName();
     std::cout << "Process ID of lsass.exe: " << processId << std::endl;
-
     return 0;
 }
