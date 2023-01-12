@@ -5,20 +5,19 @@
 #include <stdexcept>
 #include <memory>
 
-// A class that holds information about a process
-class ProcessInfo
+// A struct that holds information about a process
+struct ProcessInfo
 {
-public:
     DWORD processID = 0; // The ID of the process
     std::wstring processName; // The name of the process
 };
 
-// A class that represents a Windows error
-class WindowsError : public std::runtime_error
+// A struct that represents a Windows error
+struct WindowsError : public std::runtime_error
 {
-public:
     // Constructor that initializes the error message and error code
     WindowsError(DWORD errorCode) : std::runtime_error(getErrorMessage(errorCode)), errorCode_(errorCode) {}
+
     // Getter for the error code
     DWORD getErrorCode() const { return errorCode_; }
 
@@ -40,7 +39,6 @@ private:
     DWORD errorCode_;
 };
 
-// A function that returns information about a process with the specified name
 std::unique_ptr<ProcessInfo> getProcessInfo(const std::string& processName)
 {
     // Check if the processName is empty
@@ -78,7 +76,6 @@ std::unique_ptr<ProcessInfo> getProcessInfo(const std::string& processName)
             }
         }
     }
-
     // If the process ID is still 0, it means that the process is not found
     if (info->processID == 0)
     {
@@ -106,14 +103,6 @@ int main(int argc, char** argv)
     {
         // Catch WindowsError exception and print error message and error code
         std::cerr << "Error: " << e.what() << " (Error code: " << e.getErrorCode() << ")" << std::endl;
-        return 1;
     }
-    catch (const std::exception& e)
-    {
-        // Catch other exceptions and print error message
-        std::cerr << "Error: " << e.what() << std::endl;
-        return 1;
-    }
-
     return 0;
 }
