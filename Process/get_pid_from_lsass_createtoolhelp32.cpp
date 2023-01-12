@@ -1,3 +1,5 @@
+// Title: Using modern C++ features to get the PID of lsass.exe
+
 #include <iostream>
 #include <Windows.h>
 #include <TlHelp32.h>
