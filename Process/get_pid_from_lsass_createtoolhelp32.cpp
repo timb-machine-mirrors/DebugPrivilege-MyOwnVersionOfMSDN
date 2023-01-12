@@ -96,7 +96,7 @@ int main(int argc, char** argv)
     try
     {
         // Get the process information for "lsass.exe"
-        auto info = getProcessInfo("lsass.exe");
+        std::unique_ptr<ProcessInfo> info = getProcessInfo("lsass.exe");
         // Print the process ID
         std::cout << "PID: " << info->processID << std::endl;
         // Print the process name
