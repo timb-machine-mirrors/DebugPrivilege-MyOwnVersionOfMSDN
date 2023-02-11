@@ -42,7 +42,7 @@ int main()
     }
 
     // The command line argument for the process to be created.
-    LPCTSTR lpApplicationName = _T("C:\\Windows\\System32\\notepad.exe");
+    LPCTSTR lpApplicationName = _T("C:\\Windows\\System32\\cmd.exe");
 
     // Flag that specifies the creation of a new console for the process.
     DWORD dwCreationFlags = CREATE_NEW_CONSOLE;
