@@ -133,9 +133,6 @@ void GetImpersonationToken(int TargetPID)
         CloseHandle(hProcess);
         return;
     }
-
-    // Create an impersonated process with the duplicated token
-    CreateImpersonatedProcess(NewToken);
 }
 
 
