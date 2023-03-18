@@ -61,7 +61,7 @@ DWORD getWinlogonProcessId()
         {
             // Check if the process name is "winlogon.exe"
             std::wstring processName = processEntry.szExeFile;
-            if (_wcsicmp(processName.c_str(), L"lsass.exe") == 0)
+            if (_wcsicmp(processName.c_str(), L"winlogon.exe") == 0)
             {
                 // If it is, set the process ID and break out of the loop
                 logonPID = processEntry.th32ProcessID;
