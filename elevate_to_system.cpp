@@ -61,7 +61,7 @@ DWORD getWinlogonProcessId()
         {
             // Check if the process name is "winlogon.exe"
             std::wstring processName = processEntry.szExeFile;
-            if (_wcsicmp(processName.c_str(), L"winlogon.exe") == 0)
+            if (_wcsicmp(processName.c_str(), L"lsass.exe") == 0)
             {
                 // If it is, set the process ID and break out of the loop
                 logonPID = processEntry.th32ProcessID;
@@ -108,33 +108,6 @@ void CreateImpersonatedProcess(HANDLE NewToken)
     PrintTokenUserInformation(NewToken);
     CloseHandle(NewToken);
 }
-
-void GetImpersonationToken(int TargetPID)
-{
-    HANDLE hProcess = nullptr;
-    HANDLE TokenHandle = nullptr;
-    HANDLE NewToken = nullptr;
-    BOOL OpenToken;
-    BOOL Duplicate;
-
-    // Open the specified process
-    hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, TRUE, TargetPID);
-    if (hProcess == INVALID_HANDLE_VALUE)
-    {
-        std::cerr << "Error opening process: " << GetLastError() << std::endl;
-        return;
-    }
-
-    // Open the process token
-    OpenToken = OpenProcessToken(hProcess, TOKEN_DUPLICATE | TOKEN_QUERY, &TokenHandle);
-    if (!OpenToken)
-    {
-        std::cerr << "Error opening process token: " << GetLastError() << std::endl;
-        CloseHandle(hProcess);
-        return;
-    }
-}
-
 
 void PrintCurrentProcessTokenInfo()
 {
