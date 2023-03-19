@@ -1,5 +1,5 @@
-# Example on establishing a network connection by using the WinSock APIs. This code sends an HTTP GET request using the send function. 
-# It then enters a loop to receive the server's response using the recv function.
+// Example on establishing a network connection by using the WinSock APIs. This code sends an HTTP GET request using the send function. 
+// It then enters a loop to receive the server's response using the recv function.
 
 #include <iostream>
 #include <Winsock2.h>
