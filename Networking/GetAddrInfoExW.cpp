@@ -1,4 +1,4 @@
-# Just a simple example on calling GetAddrInfoExW to resolve a hostname to one or more IP addresses and retrieve related address information
+// Just a simple example on calling GetAddrInfoExW to resolve a hostname to one or more IP addresses and retrieve related address information
 
 #include <iostream>
 #include <Winsock2.h>
