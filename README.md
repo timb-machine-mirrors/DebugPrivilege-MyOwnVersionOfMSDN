@@ -1,2 +1,2 @@
 # Windows
-A side project of mine that contains different (poor) snippet of C++ code snippets that form as a 'Proof of Concept' for certain Windows APIs. It's just a side project of mine.
+A side project of mine that contains different (poor) C++ code snippets that forms a 'Proof of Concept' for certain Windows APIs. It's just a side project of mine to explore more about how certain Windows APIs work. 
