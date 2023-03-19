@@ -1,5 +1,5 @@
-# Simple code snippet that calls CreateProcessWithLogonW to run under the security context of the user Jason to spawn cmd.exe 
-# CreateProcessWithLogonW leverages the Secondary Logon Service
+// Simple code snippet that calls CreateProcessWithLogonW to run under the security context of the user Jason to spawn cmd.exe 
+// CreateProcessWithLogonW leverages the Secondary Logon Service
 
 #include <Windows.h>
 #include <string>
