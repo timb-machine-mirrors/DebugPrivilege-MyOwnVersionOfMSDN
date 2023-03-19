@@ -4,10 +4,21 @@
 #include <Winsock2.h>
 #include <Ws2tcpip.h>
 #include <windows.h>
+#include <string>
+#include <vector>
+#include <iomanip>
 
 #pragma comment(lib, "Ws2_32.lib")
 
-// Completion routine for GetAddrInfoExW
+typedef struct AddressInfo {
+    std::wstring canonicalName;
+    std::string ipAddress;
+    int socketType;
+    int protocol;
+} AddressInfo;
+
+std::vector<AddressInfo> addressInfos;
+
 void CALLBACK GetAddrInfoExCompletion(
     DWORD Error,
     DWORD Bytes,
@@ -19,7 +30,15 @@ void CALLBACK GetAddrInfoExCompletion(
         std::cout << "GetAddrInfoExW failed. Error: " << Error << std::endl;
     }
     else {
-        std::cout << "Address information retrieved successfully." << std::endl;
+        std::wcout << L"Address information retrieved successfully." << std::endl;
+
+        // Print table header
+        std::wcout << std::left << std::setw(40) << L"Canonical Name"
+            << std::setw(40) << L"IP Address"
+            << std::setw(15) << L"Socket Type"
+            << std::setw(10) << L"Protocol"
+            << std::endl;
+        std::wcout << std::wstring(105, L'-') << std::endl;
 
         // Iterate through the results and print the information
         for (PADDRINFOEXW addr = result; addr != nullptr; addr = addr->ai_next) {
@@ -34,15 +53,33 @@ void CALLBACK GetAddrInfoExCompletion(
                 inet_ntop(addr->ai_family, &ipv6->sin6_addr, ip, sizeof(ip));
             }
 
-            std::wcout << L"Canonical Name: " << addr->ai_canonname << std::endl;
-            std::cout << "IP Address: " << ip << std::endl;
-            std::cout << "Socket Type: " << addr->ai_socktype << std::endl;
-            std::cout << "Protocol: " << addr->ai_protocol << std::endl;
-            std::cout << "----------------------" << std::endl;
+            std::wstring wip = std::wstring(ip, ip + strlen(ip));
+
+            std::wcout << std::left << std::setw(40) << addr->ai_canonname
+                << std::setw(40) << wip
+                << std::setw(15) << addr->ai_socktype
+                << std::setw(10) << addr->ai_protocol
+                << std::endl;
         }
 
         // Free the address information
         FreeAddrInfoExW(result);
+    }
+}
+
+void printAddressInfos() {
+    std::cout << std::left << std::setw(20) << "Canonical Name"
+        << std::setw(40) << "IP Address"
+        << std::setw(12) << "Socket Type"
+        << std::setw(10) << "Protocol" << std::endl;
+
+    std::cout << std::string(82, '-') << std::endl;
+
+    for (const auto& info : addressInfos) {
+        std::wcout << std::left << std::setw(20) << info.canonicalName;
+        std::cout << std::setw(40) << info.ipAddress
+            << std::setw(12) << info.socketType
+            << std::setw(10) << info.protocol << std::endl;
     }
 }
 
@@ -68,7 +105,7 @@ int main() {
     // Query address information using GetAddrInfoExW
     HANDLE hLookup;
     result = GetAddrInfoExW(
-        L"portal.azure.com", // Hostname to resolve, as example. We use the Azure Portal
+        L"portal.azure.com", // Hostname to resolve
         nullptr,
         NS_ALL,
         nullptr,
@@ -92,6 +129,9 @@ int main() {
 
     // Wait for the completion routine to be called
     SleepEx(INFINITE, TRUE);
+
+    // Print the address information in a table format
+    printAddressInfos();
 
     // Clean up Winsock
     WSACleanup();
