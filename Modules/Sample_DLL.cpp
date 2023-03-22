@@ -3,6 +3,8 @@
 // To automatically execute the MyExecuteProcess function when the DLL is injected into a specified process, 
 // we need to call it from the DllMain function and specify the export at DLL_PROCESS_ATTACH
 
+// This DLL can also be triggered manually: rundll32.exe Dll1.dll,MyExecuteProcess
+
 #include <windows.h>
 #include <iostream>
 
