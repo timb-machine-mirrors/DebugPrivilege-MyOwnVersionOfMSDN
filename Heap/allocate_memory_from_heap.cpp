@@ -1,4 +1,5 @@
 // Example: HeapAlloc function to allocate a buffer for the command line arguments and the HeapFree function is used to free the buffer
+// NOTE: This just a demonstration and is not meant to be as a 'real' example. Yes, I'm aware that in most cases we don't need to allocate memory from the heap for CLIs.
 
 #include <windows.h>
 #include <iostream>
